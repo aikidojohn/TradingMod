@@ -1,0 +1,11 @@
+gradle
+run
+build
+bin
+target
+.gradle
+.project
+.classpath
+.settings
+*.launch
+
