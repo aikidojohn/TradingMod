@@ -14,6 +14,7 @@ public class MerchantBlockTileEntity extends TileEntity implements IInventory {
 
 	private ItemStack[] inventory;
 	private String customName;
+	private String owner;
 	
 	public MerchantBlockTileEntity() {
 		this.inventory = new ItemStack[this.getSizeInventory()];
@@ -31,7 +32,9 @@ public class MerchantBlockTileEntity extends TileEntity implements IInventory {
 	        }
 	    }
 	    nbt.setTag("Items", list);
-
+	    if (owner != null) {
+	    	nbt.setString("Owner", owner);
+	    }
 	    if (this.hasCustomName()) {
 	        nbt.setString("CustomName", this.getCustomName());
 	    }
@@ -52,6 +55,9 @@ public class MerchantBlockTileEntity extends TileEntity implements IInventory {
 	    if (nbt.hasKey("CustomName", 8)) {
 	        this.setCustomName(nbt.getString("CustomName"));
 	    }
+	    if (nbt.hasKey("Owner", 8)) {
+	    	this.owner = nbt.getString("Owner");
+	    }
 	}
 
 	@Override
@@ -65,6 +71,14 @@ public class MerchantBlockTileEntity extends TileEntity implements IInventory {
 	
 	public void setCustomName(String name) {
 		this.customName = name;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+	
+	public String getOwner() {
+		return this.owner;
 	}
 
 	@Override

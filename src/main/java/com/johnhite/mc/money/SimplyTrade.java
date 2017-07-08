@@ -15,6 +15,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -22,14 +23,17 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-@Mod(modid = ExampleMod.MODID, version = ExampleMod.VERSION)
-public class ExampleMod
+@Mod(modid = SimplyTrade.MODID, version = SimplyTrade.VERSION)
+public class SimplyTrade
 {
     public static final String MODID = "examplemod";
     public static final String VERSION = "1.0";
     
     @Instance
-    public static ExampleMod instance = new ExampleMod();
+    public static SimplyTrade instance = new SimplyTrade();
+    
+    @SidedProxy(serverSide = "com.johnhite.mc.money.CommonProxy", clientSide = "com.johnhite.mc.money.ClientProxy")
+    public static ISideProxy proxy;
     
     public static MerchantBlock merchant = new MerchantBlock();
     
@@ -42,6 +46,7 @@ public class ExampleMod
 
         GameRegistry.addRecipe(new ShapedOreRecipe(
         		new ItemStack(merchant), new Object[] { "III", "PDP", "RRR", 'I', Items.IRON_INGOT, 'P', "plankWood", 'D', Items.DIAMOND, 'R', Items.REDSTONE}));
+        proxy.init(event);
     }
 
     @EventHandler
@@ -53,8 +58,8 @@ public class ExampleMod
     	
     	
     	if (event.getSide() == Side.CLIENT) {
-    		System.out.println("Registering item: " + Item.getItemFromBlock(merchant));
-    		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(merchant), 0,  new ModelResourceLocation(ExampleMod.MODID + ":merchant_block", "inventory"));
+    		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(merchant), 0,  new ModelResourceLocation(SimplyTrade.MODID + ":merchant_block", "inventory"));
         }
+    	proxy.preInit(event);
     }
 }

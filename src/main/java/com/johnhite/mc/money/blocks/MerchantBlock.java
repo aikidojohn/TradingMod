@@ -1,6 +1,6 @@
 package com.johnhite.mc.money.blocks;
 
-import com.johnhite.mc.money.ExampleMod;
+import com.johnhite.mc.money.SimplyTrade;
 import com.johnhite.mc.money.client.gui.MoneyGuiHandler;
 import com.johnhite.mc.money.tiles.MerchantBlockTileEntity;
 
@@ -57,13 +57,14 @@ public class MerchantBlock extends BlockContainer {
 	    if (stack.hasDisplayName()) {
 	        ((MerchantBlockTileEntity) worldIn.getTileEntity(pos)).setCustomName(stack.getDisplayName());
 	    }
+	    ((MerchantBlockTileEntity) worldIn.getTileEntity(pos)).setOwner(placer.getName());
 	}
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (!worldIn.isRemote) {
-			playerIn.openGui(ExampleMod.instance, MoneyGuiHandler.MERCHANT_PUBLIC_GUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
+			playerIn.openGui(SimplyTrade.instance, MoneyGuiHandler.MERCHANT_PUBLIC_GUI, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}
